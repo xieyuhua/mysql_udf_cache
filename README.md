@@ -99,7 +99,7 @@ Usage
 
 ### - 特性
 
-✅ 限线程安全（sync.Mutex）
+✅ 限程安全（sync.Mutex）
 
 ✅ TTLRU + 最大条目限制
 
