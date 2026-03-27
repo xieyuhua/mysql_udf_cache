@@ -110,7 +110,7 @@ SELECT udf_cache_help();
 Usage
 ---
 
-1、函数增强（出发点）
+1、函数增强（开发这个插件初衷）
 
 ```sql
 DELIMITER ;;
