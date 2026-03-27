@@ -53,6 +53,13 @@ create_udf_cache_functions() {
     execute_mysql_cmd $username $password "CREATE  FUNCTION udf_set_cache RETURNS STRING SONAME 'udf_cache.so';"
     execute_mysql_cmd $username $password "CREATE  FUNCTION udf_get_cache RETURNS STRING SONAME 'udf_cache.so';"
     execute_mysql_cmd $username $password "CREATE  FUNCTION udf_del_cache RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_exists_cache RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_ttl_cache RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_count_cache RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_list_cache RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_cache_memory RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_cache_stat RETURNS STRING SONAME 'udf_cache.so';"
+    execute_mysql_cmd $username $password "CREATE  FUNCTION udf_list_cache_paged RETURNS STRING SONAME 'udf_cache.so';"
     execute_mysql_cmd $username $password "CREATE  FUNCTION udf_cache_help RETURNS STRING SONAME 'udf_cache.so';"
 }
 

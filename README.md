@@ -8,8 +8,8 @@ Setup
 ---
 - **Clone Source**
 ```shell
-git clone https://github.com/xieyuhua/mysql_udf_cache_golang.git udf
-cd udf
+git clone https://github.com/xieyuhua/mysql_udf_cache.git
+cd mysql_udf_cache
 ```
 
 - **Auto Build**
@@ -57,16 +57,17 @@ mv ./udf_cache.so /www/server/mysql/lib/plugin/
 
 
 ```sql
-CREATE  FUNCTION udf_set_cache RETURNS STRING SONAME 'udf_cache.so';
-```
-```sql
-CREATE  FUNCTION udf_get_cache RETURNS STRING SONAME 'udf_cache.so'
-```
-```sql
-CREATE  FUNCTION udf_del_cache RETURNS STRING SONAME 'udf_cache.so';
-```
-```sql
-CREATE  FUNCTION udf_cache_help RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_set_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_get_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_del_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_exists_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_ttl_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_count_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_list_cache RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_list_cache_paged RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_cache_memory RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_cache_stat RETURNS STRING SONAME 'udf_cache.so';
+CREATE FUNCTION udf_cache_help RETURNS STRING SONAME 'udf_cache.so';
 ```
 
 ### Help
@@ -83,6 +84,18 @@ SELECT udf_get_cache('k1');
 ```sql
 -- 删除指定 key
 SELECT udf_del_cache('k1');
+```
+```sql
+-- 统计 key
+SELECT udf_count_cache('key%');
+SELECT udf_count_cache('%');
+```
+```sql
+-- 分页列出 key
+SELECT udf_list_cache('key%');
+SELECT udf_list_cache('%');
+SELECT udf_list_cache_paged('key%', 0, 100);
+SELECT udf_list_cache_paged('%', 100, 50);
 ```
 ```sql
 -- 清空全部缓存
@@ -143,11 +156,23 @@ DELIMITER ;
 
 ### - 特性
 
-✅ 限程安全（sync.Mutex）
+✅ SET / GET / DEL / EXISTS / TTL
 
-✅ TTLRU + 最大条目限制
+✅ LRU + TTL
 
-✅ 支持 SET / GET / DEL / EXISTS / TTL
+✅ 模糊统计 udf_count_cache
+
+✅ 模糊列表 udf_list_cache
+
+✅ 分页 list（offset / limit）
+
+✅ 内存占用估算
+
+✅ 命中率统计（hit / miss / rate）
+
+✅ 线程安全
+
+✅ 可在 MySQL FUNCTION 中安全调用
 
 ✅ mysqld 重启缓存会丢失（正常）
 
