@@ -77,7 +77,7 @@ CREATE  FUNCTION udf_cache_help RETURNS STRING SONAME 'udf_cache.so';
 SELECT udf_set_cache('k1', 'v1', 60);
 ```
 ```sql
--- 获取缓存
+-- 获取缓存，不存在返回 ""
 SELECT udf_get_cache('k1');
 ```
 ```sql
@@ -97,9 +97,11 @@ SELECT udf_cache_help();
 Usage
 ---
 
-### - Help
+### - 特性
 
-```sql
-SELECT udf_cache_help();
-```
+✅ 限线程安全（sync.Mutex）
+✅ TTLRU + 最大条目限制
+✅ 支持 SET / GET / DEL / EXISTS / TTL
+✅ mysqld 重启缓存会丢失（正常）
+
 
