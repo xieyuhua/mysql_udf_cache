@@ -97,6 +97,50 @@ SELECT udf_cache_help();
 Usage
 ---
 
+1、函数增强（出发点）
+
+```sql
+DELIMITER ;;
+CREATE FUNCTION `get_login_ip`(p_username VARCHAR(255)) RETURNS varchar(1024) CHARSET utf8mb4
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+    DECLARE v_val VARCHAR(1024);
+
+    -- 1. 读缓存
+    SET v_val = udf_get_cache(p_username);
+
+    IF v_val IS NOT NULL AND v_val <> '' THEN
+        RETURN v_val;
+    END IF;
+
+    -- 2. 查表
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR NOT FOUND
+        BEGIN
+            SET v_val = NULL;
+        END;
+
+        SELECT ip INTO v_val
+        FROM login_log
+        WHERE username = p_username
+        LIMIT 1;
+    END;
+
+    IF v_val IS NULL THEN
+        RETURN NULL;
+    END IF;
+
+    -- 3. 回写缓存
+    SET @tmp = udf_set_cache(p_username, v_val, 300);
+
+    RETURN v_val;
+END ;;
+DELIMITER ;
+```
+2、数据共享
+
+
 ### - 特性
 
 ✅ 限程安全（sync.Mutex）
