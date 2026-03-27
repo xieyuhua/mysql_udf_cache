@@ -100,8 +100,11 @@ Usage
 ### - 特性
 
 ✅ 限线程安全（sync.Mutex）
+
 ✅ TTLRU + 最大条目限制
+
 ✅ 支持 SET / GET / DEL / EXISTS / TTL
+
 ✅ mysqld 重启缓存会丢失（正常）
 
 
